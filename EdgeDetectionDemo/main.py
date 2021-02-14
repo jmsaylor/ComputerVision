@@ -11,22 +11,38 @@ if __name__ == '__main__':
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # img = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
 
-    img = cv2.blur(img, ksize=(17, 17))
+    # img = cv2.blur(img, ksize=(17, 17))
 
     # Open/Close (Dilation/Erosion)
-
+    #
+    # kernel = np.ones((9, 9), np.uint8)
+    #
+    # img_open = cv2.morphologyEx(img, op=cv2.MORPH_OPEN, kernel=kernel)
+    # img_close = cv2.morphologyEx(img, op=cv2.MORPH_CLOSE, kernel=kernel)
+    # img_gradient = cv2.morphologyEx(img, op=cv2.MORPH_GRADIENT, kernel=kernel)
+    # img_tophat = cv2.morphologyEx(img, op=cv2.MORPH_TOPHAT, kernel=kernel)
+    # img_blackhat = cv2.morphologyEx(img, op=cv2.MORPH_BLACKHAT, kernel=kernel)
+    #
+    # images = [img, img_open, img_close, img_gradient, img_tophat, img_blackhat]
+    #
+    # fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(15,15))
+    # for ind, p in enumerate(images):
+    #     ax = axs[ind//3, ind%3]
+    #     ax.imshow(p, cmap='gray')
+    #     ax.axis('off')
+    # plt.show()
 
     # Morphological Transformations - Dilation
 
-    kernel = np.ones((9, 9), np.uint8)
-    img_dilate = cv2.dilate(img, kernel, iterations=3)
-
-    plt.figure(figsize=(20,10))
-    plt.subplot(1, 2, 1)
-    plt.imshow(img, cmap='gray')
-    plt.subplot(1, 2, 2)
-    plt.imshow(img_dilate, cmap='gray')
-    plt.show()
+    # kernel = np.ones((9, 9), np.uint8)
+    # img_dilate = cv2.dilate(img, kernel, iterations=3)
+    #
+    # plt.figure(figsize=(20,10))
+    # plt.subplot(1, 2, 1)
+    # plt.imshow(img, cmap='gray')
+    # plt.subplot(1, 2, 2)
+    # plt.imshow(img_dilate, cmap='gray')
+    # plt.show()
 
     #Morphological Transformations - Erosion
     # kernel_0 = np.ones((9, 9), np.uint8)
@@ -58,6 +74,24 @@ if __name__ == '__main__':
     #     plt.axis('off')
     # plt.show()
 
+    # Adaptive thresholding
+
+    _, thresh_binary = cv2.threshold(img, thresh=127, maxval=255, type=cv2.THRESH_BINARY)
+
+    adap_mean_2 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 7, 2)
+    adap_mean_2_inv = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 7, 2)
+    adap_mean_8 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 7, 8)
+    adap_gaussian_8 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 7, 8)
+
+    images = [img, thresh_binary, adap_mean_2, adap_mean_2_inv, adap_mean_8, adap_gaussian_8]
+
+    fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(15, 15))
+
+    for ind, p in enumerate(images):
+        ax = axs[ind%2, ind//2]
+        ax.imshow(p, cmap='gray')
+        ax.axis('off')
+    plt.show()
 
     #Threshold Example
     # _, thresh_0 = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
