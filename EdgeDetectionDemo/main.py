@@ -8,29 +8,60 @@ if __name__ == '__main__':
     # img = cv2.imread('/home/jm/Pictures/fibers.jpg')
     img = cv2.imread('/home/jm/Pictures/schwartz.jpg')
 
-    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # img = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
 
     # img = cv2.blur(img, ksize=(17, 17))
 
-    # Shi-Tomasi Corner Detection
-    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # Contours
 
-    img_gray = cv2.blur(img_gray, ksize=(9, 9))
+    img_blur = cv2.bilateralFilter(img, d=7, sigmaSpace=75, sigmaColor=75)
 
-    corners = cv2.goodFeaturesToTrack(img_gray, maxCorners=100, qualityLevel=.01, minDistance=20)
+    img_gray = cv2.cvtColor(img_blur, cv2.COLOR_RGB2GRAY)
 
-    img_2 = img.copy()
-
-    for i in corners:
-        x, y = i.ravel()
-        cv2.circle(img_2, center=(x, y), radius=5, color=(0, 255, 0), thickness=-1)
-
-    plt.figure(figsize=(20, 20))
-    plt.subplot(1,2,1); plt.imshow(img); plt.axis('off')
-    plt.subplot(1,2,2); plt.imshow(img_2); plt.axis('off')
+    a = img_gray.max()
+    _, thresh =cv2.threshold(img_gray, a/2+60, a, cv2.THRESH_BINARY_INV)
+    plt.imshow(thresh, cmap='gray')
     plt.show()
+    # Face Detection
+
+    # img = cv2.imread('/home/jm/Pictures/faces.jpg')
+    #
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # face_cascade = cv2.CascadeClassifier('/home/jm/Code/haarcascades/haarcascade_frontalface_default.xml')
+    #
+    # def detect_face(img):
+    #     img_2 = img.copy()
+    #     face_rects = face_cascade.detectMultiScale(img_2, scaleFactor=1.1, minNeighbors=3)
+    #
+    #     for (x, y, w, h) in face_rects:
+    #         cv2.rectangle(img_2, (x, y), (x+w, y+h), (255, 255, 255), 3)
+    #
+    #     return img_2
+    #
+    # faces_detected = detect_face(img)
+    # plt.imshow(faces_detected, cmap='gray')
+    # plt.axis('off')
+    # plt.show()
+
+    # Shi-Tomasi Corner Detection
+    # img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    #
+    # img_gray = cv2.blur(img_gray, ksize=(9, 9))
+    #
+    # corners = cv2.goodFeaturesToTrack(img_gray, maxCorners=100, qualityLevel=.01, minDistance=20)
+    #
+    # img_2 = img.copy()
+    #
+    # for i in corners:
+    #     x, y = i.ravel()
+    #     cv2.circle(img_2, center=(x, y), radius=5, color=(0, 255, 0), thickness=-1)
+    #
+    # plt.figure(figsize=(20, 20))
+    # plt.subplot(1,2,1); plt.imshow(img); plt.axis('off')
+    # plt.subplot(1,2,2); plt.imshow(img_2); plt.axis('off')
+    # plt.show()
 
     # Harris Corner Detection
     # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
