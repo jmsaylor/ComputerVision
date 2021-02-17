@@ -12,6 +12,8 @@ if __name__ == '__main__':
 
         cv.imshow('Hand Detection', img)
 
+        # TODO: make background change color depending on how long the hand is in an area
+
         if 27 == cv.waitKey(1):
             break
 
