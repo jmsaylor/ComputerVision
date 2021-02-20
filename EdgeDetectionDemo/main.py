@@ -6,7 +6,8 @@ import numpy as np
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     # img = cv2.imread('/home/jm/Pictures/fibers.jpg')
-    img = cv2.imread('/home/jm/Pictures/schwartz.jpg')
+    # img = cv2.imread('/home/jm/Pictures/schwartz.jpg')
+    img = cv2.imread('/home/jm/Downloads/ship.jpg')
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

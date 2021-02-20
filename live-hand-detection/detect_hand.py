@@ -18,7 +18,7 @@ def detectHand(img):
 
     blank_image = np.zeros((height, width, channels), np.uint8)
 
-    # contours = cv.convexHull(contours)
+    contours = cv.convexHull(contours)
 
     cv.drawContours(blank_image, [contours], -1, (0,255,0), 3)
 

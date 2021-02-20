@@ -1,25 +1,17 @@
 import cv2
 import numpy as np
 
-face_cascade = cv2.CascadeClassifier('/home/jm/Code/haarcascades/haarcascade_frontalface_default.xml')
-
-def detect_face(img):
-	img_copy = img.copy()
-	face_rects = face_cascade.detectMultiScale(img_copy)
-
-	for (x, y, w, h) in face_rects:
-		cv2.rectangle(img_copy, (x, y), (x+w, y+h), (0,255,0), 3)
-
-	return img_copy
-
+from slice import grab_face, print_face_coordinates, detect_face
 cap = cv2.VideoCapture(0)
-
+# i = 0
 while True:
-
+	# i += 1
 	ret, frame = cap.read(0)
 
-	frame = detect_face(frame)
-	cv2.imshow('Video Face Detection', frame)
+	# face = detect_face(frame)
+	face = grab_face(frame)
+	cv2.imshow('Video Face Detection', face)
+	# print_face_coordinates(frame)
 
 	c = cv2.waitKey(1)
 
